@@ -26,21 +26,25 @@ def load_json_library():
     # req = requests.delete(f'https://api.spotify.com/v1/me/tracks', headers=headers, json=tracks_to_delete)
 
 
-def user_input_ckeck():
-    # user_input = ''.join(user_input.split())
-    #check for numeric input only
-    user_input = input('Please type numbers of the songs you want to remove: ')
-    if ''.join(user_input.split()).isnumeric():
-        print('Input is numeric')
-        return [int(i) for i in user_input.split()]
-    else:
-        print('Make sure you type only numbers separated with space')
-        return user_input_ckeck()
+def user_input_ckeck(look_for:str,range_u:int):
+    if look_for == 'songs':
+        user_input = input('Please type numbers of the songs you want to remove: ').split(' ')
+        input_list = []
+        input_list.extend(user_input)
 
-#['collaborative', 'description', 'external_urls', 'href', 'id', 'images', 'name', 'owner', 'primary_color', 'public', 'snapshot_id', 'tracks', 'type', 'uri'])
+        final_input = []
+        for num in user_input:
+            if num.isnumeric():
+                user_input = int(num)-1
+            else:
+                print('Make sure you typed correct numbers.')
+                return user_input_ckeck('songs',33)
+            if user_input in range(range_u):
+                final_input.append(user_input)
+            else:
+                print('Make sure you typed correct numbers.')
+                return user_input_ckeck(look_for,range_u)
+    return final_input
+            
+print(user_input_ckeck(look_for='songs', range_u=33))
 
-
-
-uinput = [int(i) for i in input().split()]
-t_f = [i in range(10) for i in uinput]
-print(all(t_f))

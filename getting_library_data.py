@@ -27,7 +27,7 @@ def get_tracks_data(headers, username, user_input):
             print(f'{i[0]}. {i[1]}')
         u_input = int(input('please choose the playlist you want to modify: ')) - 1
         u_input = list(users_playlists_info)[u_input]
-        rqst_url = f'{users_playlists_info[user_input]['href']}'
+        rqst_url = f'{users_playlists_info[u_input]['href']}'
     if user_input ==2:
         user_input = 'Liked Songs'
         rqst_url = 'https://api.spotify.com/v1/me/tracks'

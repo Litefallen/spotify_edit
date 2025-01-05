@@ -13,19 +13,31 @@ def load_json_library(songs_dict):
 
         for i in enumerate(full_list, start=1):
             print(f"{i[0]}. {i[1][0]} - {i[1][1]}")
-        user_input = user_input_ckeck()
-        user_checked_songs = [full_list[number-1] for number in user_input]
+        user_input = user_input_ckeck(look_for='songs', range_u=len(full_list))
+        print(user_input)
+        user_checked_songs = [full_list[number] for number in user_input]
         return [songs_dict[i[0]][i[1]] for i in user_checked_songs]
 
 
 def user_input_ckeck(look_for:str,range_u:int):
+    if look_for == 'fav_or_pl':
+        user_input = input('Please type 1 if you want to modify one of your playlists\nor type 2 to modify your favorites: ')
+        if user_input.isnumeric() and int(user_input) in range(1, range_u+1):
+            return int(user_input.strip())
+        else:
+            print('Please, type again.')
+            user_input_ckeck(look_for, range_u)
     if look_for == 'songs':
-        user_input = input('Please type numbers of the songs you want to remove: ')
-        if ''.join(user_input.split()).isnumeric():
-            user_input = [int(i)-1 for i in user_input]
-            check = [i in range(range_u) for i in user_input]
-            if all(check):
-                return user_input
+        user_input = input('Please type numbers of the songs you want to remove: ').split(' ')
+        final_input = []
+        for num in user_input:
+            if num.isnumeric():
+                user_input = int(num)-1
+            else:
+                print('Make sure you typed correct numbers.')
+                return user_input_ckeck('songs',range_u)
+            if user_input in range(range_u):
+                final_input.append(user_input)
             else:
                 print('Make sure you typed correct numbers.')
                 return user_input_ckeck(look_for,range_u)
@@ -36,5 +48,6 @@ def user_input_ckeck(look_for:str,range_u:int):
         else:
             print('Please, type again.')
             user_input_ckeck(look_for, range_u)
+    return final_input
     
-user_input_ckeck('playlist', 2)
+    

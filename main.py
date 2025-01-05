@@ -37,9 +37,13 @@ async def get_token(code=Query):
     user_info = requests.get('https://api.spotify.com/v1/me', headers=headers)
     user_info = user_info.json()
     while True:
-        user_input = user_input_ckeck(look_for='playlist',range_u=2)
-        user_data = get_tracks_data(headers, username=user_info['display_name'],user_input=1)
+        # user_input = user_input_ckeck(look_for='playlist',range_u=2)
+        user_input = user_input_ckeck(look_for='fav_or_pl',range_u=2)
+        print(user_input)
+        user_data = get_tracks_data(headers, username=user_info['display_name'],user_input=user_input)
         songs_to_remove = load_json_library(user_data[0])
+        
+        print(songs_to_remove)
         remove_songs(tracks_id=songs_to_remove,playlist=user_data[2], headers=headers)
         print('The songs has been removed from the playlist')
 
