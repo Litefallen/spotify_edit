@@ -15,7 +15,7 @@ from song_search import load_json_library, user_input_ckeck
 import uvicorn
 # Hide sensitive data   
 dotenv.load_dotenv()
-client_id = os.environ.get('CLIENT_ID')
+client_id = os.environ.get('CLIENT_ID') # create .env file with your SPOTIFY API credentials
 client_secret = os.environ.get('CLIENT_SECRET')
 
 api = fastapi.FastAPI()
@@ -46,8 +46,7 @@ async def get_token(code=Query):
         print(songs_to_remove)
         remove_songs(tracks_id=songs_to_remove,playlist=user_data[2], headers=headers)
         print('The songs has been removed from the playlist')
-
-    
+    return RedirectResponse('/end')
 
     
     # async with httpx.AsyncClient() as client:
@@ -57,7 +56,7 @@ async def get_token(code=Query):
     # for i in music_list:
     #     await get_your_music(i[0], i[1])  
     # print('All songs were downloaded')
-    return RedirectResponse('/end')
+
 
 scopes = 'playlist-read-private user-read-private user-library-read user-library-modify playlist-modify-private playlist-modify-public'
 if __name__ == "__main__":
